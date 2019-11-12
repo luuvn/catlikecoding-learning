@@ -23,10 +23,11 @@ public class PersistentStorage : MonoBehaviour
 
     }
 
-    public void Save(PersistableObject o)
+    public void Save(PersistableObject o, int version)
     {
         using (BinaryWriter writer = new BinaryWriter(File.Open(savePath, FileMode.Create)))
         {
+            writer.Write(-version);
             o.Save(new GameDataWriter(writer));
         };
     }
@@ -35,7 +36,7 @@ public class PersistentStorage : MonoBehaviour
     {
         using (var reader = new BinaryReader(File.Open(savePath, FileMode.Open)))
         {
-            o.Load(new GameDataReader(reader));
+            o.Load(new GameDataReader(reader, -reader.ReadInt32()));
         }
     }
 }
@@ -59,6 +60,14 @@ public class GameDataWriter
         writer.Write(value);
     }
 
+    public void Write(Color color)
+    {
+        writer.Write(color.r);
+        writer.Write(color.g);
+        writer.Write(color.b);
+        writer.Write(color.a);
+    }
+
     public void Write(Quaternion value)
     {
         writer.Write(value.x);
@@ -77,10 +86,13 @@ public class GameDataWriter
 
 public class GameDataReader
 {
+    public int Version { get; }
     BinaryReader reader;
-    public GameDataReader(BinaryReader rd)
+
+    public GameDataReader(BinaryReader rd, int version)
     {
         reader = rd;
+        Version = version;
     }
 
     public float ReadFloat()
@@ -110,5 +122,16 @@ public class GameDataReader
         value.y = reader.ReadSingle();
         value.z = reader.ReadSingle();
         return value;
+    }
+
+    public Color ReadColor()
+    {
+        Color color;
+        color.r = reader.ReadSingle();
+        color.g = reader.ReadSingle();
+        color.b = reader.ReadSingle();
+        color.a = reader.ReadSingle();
+
+        return color;
     }
 }
