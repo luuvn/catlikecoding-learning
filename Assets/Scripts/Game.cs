@@ -94,7 +94,7 @@ public class Game : PersistableObject
     {
         BeginNewGame();
 
-        int version = -reader.ReadInt();
+        int version = reader.Version;
         if (version > Game.version)
         {
             Debug.LogError("Unsupported future save version " + version);

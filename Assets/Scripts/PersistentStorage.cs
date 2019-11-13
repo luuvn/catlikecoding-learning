@@ -9,6 +9,7 @@ public class PersistentStorage : MonoBehaviour
     private void Awake()
     {
         savePath = Path.Combine(Application.persistentDataPath, "saveFile");
+        Debug.Log(savePath);
     }
 
     // Use this for initialization

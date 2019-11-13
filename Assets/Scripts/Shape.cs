@@ -8,6 +8,7 @@ public class Shape : PersistableObject
     Color color;
     MeshRenderer meshRender;
     static int colorPropertyId = Shader.PropertyToID("_Color");
+    static MaterialPropertyBlock sharedPropertyBlock;
 
     private void Awake()
     {
@@ -45,9 +46,13 @@ public class Shape : PersistableObject
     public void SetColor(Color color)
     {
         this.color = color;
-        var propertyBlock = new MaterialPropertyBlock();
-        propertyBlock.SetColor(colorPropertyId, color);
-        meshRender.SetPropertyBlock(propertyBlock);
+        //meshRender.material.color = color;
+        if (sharedPropertyBlock == null)
+        {
+            sharedPropertyBlock = new MaterialPropertyBlock();
+        }
+        sharedPropertyBlock.SetColor(colorPropertyId, color);
+        meshRender.SetPropertyBlock(sharedPropertyBlock);
     }
 
     public override void Save(GameDataWriter writer)
