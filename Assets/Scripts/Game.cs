@@ -14,8 +14,14 @@ public class Game : PersistableObject
     public KeyCode newGameKey = KeyCode.N;
     public KeyCode saveKey = KeyCode.S;
     public KeyCode loadKey = KeyCode.L;
+    public KeyCode destroyKey = KeyCode.X;
+
+    public float CreationSpeed { get; set; }
+    public float DestroySpeed { get; set; }
 
     private List<Shape> shapes;
+    private float creationProcess;
+    private float destroyProcess;
 
     void Awake()
     {
@@ -50,6 +56,23 @@ public class Game : PersistableObject
         {
             storage.Load(this);
         }
+
+        if (Input.GetKey(destroyKey))
+            DestroyShape();
+
+        creationProcess += Time.deltaTime * CreationSpeed;
+        while (creationProcess >= 1f)
+        {
+            creationProcess -= 1f;
+            CreateShape();
+        }
+
+        destroyProcess += Time.deltaTime * DestroySpeed;
+        while (destroyProcess >= 1f)
+        {
+            destroyProcess -= 1f;
+            DestroyShape();
+        }
     }
 
     void CreateShape()
@@ -66,6 +89,18 @@ public class Game : PersistableObject
             );
 
         shapes.Add(shape);
+    }
+
+    void DestroyShape()
+    {
+        if (shapes.Count > 0)
+        {
+            int index = Random.Range(0, shapes.Count);
+            Destroy(shapes[index].gameObject);
+            int lastIndex = shapes.Count - 1;
+            shapes[index] = shapes[lastIndex];
+            shapes.RemoveAt(lastIndex);
+        }
     }
 
     void BeginNewGame()
