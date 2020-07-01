@@ -36,12 +36,13 @@ public class MovingSphere : MonoBehaviour
 
     void OnValidate()
     {
-
+        minGroundDotProduct = Mathf.Cos(maxGroundAngle * Mathf.Deg2Rad);
     }
 
     void Awake()
     {
         body = GetComponent<Rigidbody>();
+        OnValidate();
     }
 
     void Update()
@@ -127,7 +128,7 @@ public class MovingSphere : MonoBehaviour
         for (int i = 0; i < collision.contactCount; i++)
         {
             ContactPoint con = collision.GetContact(i);
-            if (con.normal.y > 0.9f)
+            if (con.normal.y >= minGroundDotProduct)
                 groundContactCount++;
         }
     }
