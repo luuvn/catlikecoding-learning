@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028328, g: 0.22571322, b: 0.30692163, a: 1}
+  m_IndirectSpecularColor: {r: 0.1802837, g: 0.22571404, b: 0.30692273, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2521,11 +2521,6 @@ PrefabInstance:
         type: 3}
       propertyPath: jumpHeight
       value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6315726874829106890, guid: 0379d4707a828415494f18f6eb7a15be,
-        type: 3}
-      propertyPath: maxAirJumps
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0379d4707a828415494f18f6eb7a15be, type: 3}
