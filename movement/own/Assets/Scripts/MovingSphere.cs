@@ -144,9 +144,18 @@ public class MovingSphere : MonoBehaviour
         if (OnGround)
             jumpDirection = contactNormal;
         else if (OnSteep)
+        {
             jumpDirection = steepNormal;
-        else if (jumpPhase <= maxAirJumps)
+            jumpPhase = 0;
+        }
+        else if (maxAirJumps > 0 && jumpPhase <= maxAirJumps)
+        {
+            if (jumpPhase == 0)
+            {
+                jumpPhase = 1;
+            }
             jumpDirection = contactNormal;
+        }
         else
             return;
 
@@ -154,6 +163,7 @@ public class MovingSphere : MonoBehaviour
         jumpPhase += 1;
 
         float jumpSpeed = Mathf.Sqrt(-2 * Physics.gravity.y * jumpHeight);
+        jumpDirection = (jumpDirection + Vector3.up).normalized;
         float combinedSpeed = Vector3.Dot(velocity, jumpDirection);
 
         if (combinedSpeed > 0f)
