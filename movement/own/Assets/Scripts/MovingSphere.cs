@@ -110,7 +110,9 @@ public class MovingSphere : MonoBehaviour
         if (OnGround || SnapToGround() || CheckSteepContacts())
         {
             stepsSinceLastGrounded = 0;
-            jumpPhase = 0;
+
+            if (stepsSinceLastJump > 1)
+                jumpPhase = 0;
 
             if (groundContactCount > 1)
                 contactNormal = contactNormal.normalized;
@@ -138,19 +140,26 @@ public class MovingSphere : MonoBehaviour
 
     void Jump()
     {
-        if (OnGround && jumpPhase < maxAirJumps)
-        {
-            stepsSinceLastJump = 0;
-            jumpPhase += 1;
+        Vector3 jumpDirection;
+        if (OnGround)
+            jumpDirection = contactNormal;
+        else if (OnSteep)
+            jumpDirection = steepNormal;
+        else if (jumpPhase <= maxAirJumps)
+            jumpDirection = contactNormal;
+        else
+            return;
 
-            float jumpSpeed = Mathf.Sqrt(-2 * Physics.gravity.y * jumpHeight);
-            float combinedSpeed = Vector3.Dot(velocity, contactNormal);
+        stepsSinceLastJump = 0;
+        jumpPhase += 1;
 
-            if (combinedSpeed > 0f)
-                jumpSpeed = Mathf.Max(jumpSpeed - combinedSpeed, 0f);
+        float jumpSpeed = Mathf.Sqrt(-2 * Physics.gravity.y * jumpHeight);
+        float combinedSpeed = Vector3.Dot(velocity, jumpDirection);
 
-            velocity += jumpSpeed * contactNormal;
-        }
+        if (combinedSpeed > 0f)
+            jumpSpeed = Mathf.Max(jumpSpeed - combinedSpeed, 0f);
+
+        velocity += jumpSpeed * jumpDirection;
     }
 
     void OnCollisionEnter(Collision collision)
@@ -174,7 +183,8 @@ public class MovingSphere : MonoBehaviour
             {
                 groundContactCount += 1;
                 contactNormal += normal;
-            } else if (normal.y > -0.01f)
+            }
+            else if (normal.y > -0.01f)
             {
                 steepContactCount += 1;
                 steepNormal += normal;
@@ -215,7 +225,7 @@ public class MovingSphere : MonoBehaviour
             velocity = (velocity - hit.normal * dot).normalized * speed;
         }
 
-        return false;
+        return true;
     }
 
     float GetMinDot(int layer)
