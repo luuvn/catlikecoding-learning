@@ -111,6 +111,8 @@ public class MovingSphere : MonoBehaviour
         {
             stepsSinceLastGrounded = 0;
 
+            // Use to reset
+            // After Jump(), still be OnGround one more time, then must use > 1, not >= 1
             if (stepsSinceLastJump > 1)
                 jumpPhase = 0;
 
@@ -150,6 +152,7 @@ public class MovingSphere : MonoBehaviour
         }
         else if (maxAirJumps > 0 && jumpPhase <= maxAirJumps)
         {
+            // Use when falling from plane
             if (jumpPhase == 0)
             {
                 jumpPhase = 1;
