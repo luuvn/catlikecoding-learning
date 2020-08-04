@@ -111,7 +111,7 @@ public class MovingSphere : MonoBehaviour
         {
             stepsSinceLastGrounded = 0;
 
-            // Use to reset
+            // Use to avoid reset too soon
             // After Jump(), still be OnGround one more time, then must use > 1, not >= 1
             if (stepsSinceLastJump > 1)
                 jumpPhase = 0;
