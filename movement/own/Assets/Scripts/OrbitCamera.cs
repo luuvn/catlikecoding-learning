@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using UnityEditor;
 
 [RequireComponent(typeof(Camera))]
 public class OrbitCamera : MonoBehaviour
@@ -20,30 +21,50 @@ public class OrbitCamera : MonoBehaviour
     [SerializeField, Range(1f, 360f)]
     private float rotationSpeed = 90f;
 
-    private Vector3 focusPoint;
+    [SerializeField, Range(-89f, 89f)] 
+    private float minVerticalAngle = -30f, maxVerticalAngle = 60f;
+
+    [SerializeField, Min(0f)] 
+    private float alignDelay = 5f;
+
+    private Vector3 focusPoint, previousFocusPoint;
 
     private Vector2 orbitAngles;
+
+    private float lastManualRotationTime;
 
     // Use this for initialization
     void Awake()
     {
         focusPoint = focus.position;
         orbitAngles = new Vector2(45f, 0f);
+        transform.localRotation = Quaternion.Euler(orbitAngles);
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
         UpdateFocusPoint();
-        ManualRotation();
-        Quaternion lookRotation = Quaternion.Euler(orbitAngles);
-        Vector3 lookDirection = lookRotation * transform.forward;
+        Quaternion lookRotation;
+
+        if (ManualRotation() || AutomaticRotation())
+        {
+            ConstrainAngles();
+            lookRotation = Quaternion.Euler(orbitAngles);
+        }
+        else
+        {
+            lookRotation = transform.localRotation;
+        }
+
+        Vector3 lookDirection = lookRotation * Vector3.forward;
         Vector3 lookPosition = focusPoint - lookDirection * distance;
         transform.SetPositionAndRotation(lookPosition, lookRotation);
     }
 
     void UpdateFocusPoint()
     {
+        previousFocusPoint = focusPoint;
         Vector3 targetPoint = focus.position;
         if (focusRadius > 0f)
         {
@@ -66,7 +87,7 @@ public class OrbitCamera : MonoBehaviour
             focusPoint = targetPoint;
     }
 
-    void ManualRotation()
+    bool ManualRotation()
     {
         Vector2 input = new Vector2(
             Input.GetAxis("Vertical Camera"),
@@ -75,7 +96,62 @@ public class OrbitCamera : MonoBehaviour
         const float e = 0.001f;
         if (input.x < -e || input.x > e || input.y < -e || input.y > e)
         {
+            lastManualRotationTime = Time.unscaledTime;
             orbitAngles += rotationSpeed * Time.unscaledDeltaTime * input;
+            return true;
         }
+
+        return false;
+    }
+
+    void OnValidate()
+    {
+        if (maxVerticalAngle < minVerticalAngle)
+        {
+            maxVerticalAngle = minVerticalAngle;
+        }
+    }
+
+    void ConstrainAngles()
+    {
+        orbitAngles.x = Mathf.Clamp(orbitAngles.x, minVerticalAngle, maxVerticalAngle);
+
+        if (orbitAngles.y < 0f)
+        {
+            orbitAngles.y += 360f;
+        } 
+        else if (orbitAngles.y >= 360f)
+        {
+            orbitAngles.y -= 360f;
+        }
+    }
+
+    bool AutomaticRotation()
+    {
+        if (Time.unscaledTime - lastManualRotationTime < alignDelay)
+        {
+            return false;
+        }
+
+        Vector2 movement = new Vector2(
+            focusPoint.x - previousFocusPoint.x,
+            focusPoint.z - previousFocusPoint.z
+        );
+        float movementDeltaSqr = movement.sqrMagnitude;
+        if (movementDeltaSqr < 0.000001f)
+        {
+            return false;
+        }
+
+        float headingAngle = GetAngle(movement / Mathf.Sqrt(movementDeltaSqr));
+        orbitAngles.y = headingAngle;
+
+        return true;
+    }
+
+    static float GetAngle(Vector2 direction)
+    {
+        float angle = Mathf.Acos(direction.y) * Mathf.Rad2Deg;
+        return direction.x < 0f ? 360f - angle : angle;
     }
 }
