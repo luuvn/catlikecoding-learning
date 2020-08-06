@@ -19,7 +19,7 @@ public class CustomGravityRigidbody : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixUpdated()
+    void FixedUpdate()
     {
         if (floatToSleep)
         {
