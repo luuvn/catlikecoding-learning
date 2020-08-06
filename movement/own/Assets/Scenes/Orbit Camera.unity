@@ -6334,7 +6334,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh11968
+  m_Name: pb_Mesh11266
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -8300,13 +8300,21 @@ MonoBehaviour:
   focusRadius: 1
   focusCentering: 0.75
   distance: 5
+  rotationSpeed: 90
+  minVerticalAngle: -30
+  maxVerticalAngle: 60
+  alignDelay: 5
+  alignSmoothRange: 45
+  obstructionMask:
+    serializedVersion: 2
+    m_Bits: 1591
 --- !u!43 &1180247632
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh12014
+  m_Name: pb_Mesh11312
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -9208,7 +9216,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh12050
+  m_Name: pb_Mesh11348
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -9920,7 +9928,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh12026
+  m_Name: pb_Mesh11324
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -10083,7 +10091,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh11980
+  m_Name: pb_Mesh11278
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -10246,7 +10254,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh12064
+  m_Name: pb_Mesh11362
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -10409,7 +10417,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh11994
+  m_Name: pb_Mesh11292
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

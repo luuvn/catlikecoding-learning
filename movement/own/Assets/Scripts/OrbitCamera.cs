@@ -1,7 +1,11 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using System.Numerics;
 using UnityEditor;
+using Quaternion = UnityEngine.Quaternion;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 [RequireComponent(typeof(Camera))]
 public class OrbitCamera : MonoBehaviour
@@ -21,14 +25,17 @@ public class OrbitCamera : MonoBehaviour
     [SerializeField, Range(1f, 360f)]
     private float rotationSpeed = 90f;
 
-    [SerializeField, Range(-89f, 89f)] 
+    [SerializeField, Range(-89f, 89f)]
     private float minVerticalAngle = -30f, maxVerticalAngle = 60f;
 
-    [SerializeField, Min(0f)] 
+    [SerializeField, Min(0f)]
     private float alignDelay = 5f;
 
     [SerializeField, Range(0f, 90f)]
     private float alignSmoothRange = 45f;
+
+    [SerializeField] 
+    private LayerMask obstructionMask = -1;
 
     private Vector3 focusPoint, previousFocusPoint;
 
@@ -78,9 +85,17 @@ public class OrbitCamera : MonoBehaviour
         Vector3 lookDirection = lookRotation * Vector3.forward;
         Vector3 lookPosition = focusPoint - lookDirection * distance;
 
-        if (Physics.BoxCast(focusPoint, CameraHalfExtends,-lookDirection, out RaycastHit hit, lookRotation, distance - regularCamera.nearClipPlane))
+        Vector3 rectOffset = lookDirection * regularCamera.nearClipPlane;
+        Vector3 rectPosition = lookPosition + rectOffset;
+        Vector3 castFrom = focus.position;
+        Vector3 castLine = rectPosition - castFrom;
+        float castDistance = castLine.magnitude;
+        Vector3 castDirection = castLine / castDistance;
+
+        if (Physics.BoxCast(castFrom, CameraHalfExtends, castDirection, out RaycastHit hit, lookRotation, castDistance, obstructionMask))
         {
-            lookPosition = focusPoint - lookDirection * (hit.distance + regularCamera.nearClipPlane);
+            rectPosition = castFrom + castDirection * hit.distance;
+            lookPosition = rectPosition - rectOffset;
         }
 
         transform.SetPositionAndRotation(lookPosition, lookRotation);
@@ -143,7 +158,7 @@ public class OrbitCamera : MonoBehaviour
         if (orbitAngles.y < 0f)
         {
             orbitAngles.y += 360f;
-        } 
+        }
         else if (orbitAngles.y >= 360f)
         {
             orbitAngles.y -= 360f;
