@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.1802837, g: 0.22571404, b: 0.30692273, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028328, g: 0.22571322, b: 0.30692163, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -619,13 +619,14 @@ GameObject:
   m_Component:
   - component: {fileID: 219027390}
   - component: {fileID: 219027389}
+  - component: {fileID: 219027391}
   m_Layer: 0
   m_Name: Gravity Plane Backward
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &219027389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -654,6 +655,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &219027391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219027388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eeaf88e94bd8c5478e890af9b1027aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gravity: 9.81
+  range: 4
 --- !u!1 &243065889
 GameObject:
   m_ObjectHideFlags: 0
@@ -973,13 +988,14 @@ GameObject:
   m_Component:
   - component: {fileID: 256457527}
   - component: {fileID: 256457526}
+  - component: {fileID: 256457528}
   m_Layer: 0
   m_Name: Gravity Plane Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &256457526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -989,7 +1005,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 256457525}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6311f95a3868e4ed39d95859c1e7337c, type: 3}
+  m_Script: {fileID: 11500000, guid: 0eeaf88e94bd8c5478e890af9b1027aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gravity: 9.81
@@ -1008,6 +1024,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &256457528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256457525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eeaf88e94bd8c5478e890af9b1027aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gravity: 9.81
+  range: 1
 --- !u!1 &268356791
 GameObject:
   m_ObjectHideFlags: 0
@@ -2837,13 +2867,14 @@ GameObject:
   m_Component:
   - component: {fileID: 307686615}
   - component: {fileID: 307686614}
+  - component: {fileID: 307686616}
   m_Layer: 0
   m_Name: Gravity Plane Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &307686614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2872,6 +2903,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 270}
+--- !u!114 &307686616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307686613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eeaf88e94bd8c5478e890af9b1027aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gravity: 9.81
+  range: 4
 --- !u!43 &309231198
 Mesh:
   m_ObjectHideFlags: 0
@@ -4870,13 +4915,14 @@ GameObject:
   m_Component:
   - component: {fileID: 515649991}
   - component: {fileID: 515649990}
+  - component: {fileID: 515649992}
   m_Layer: 0
   m_Name: Gravity Plane Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &515649990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4905,6 +4951,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!114 &515649992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 515649989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eeaf88e94bd8c5478e890af9b1027aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gravity: 9.81
+  range: 4
 --- !u!43 &520054837
 Mesh:
   m_ObjectHideFlags: 0
@@ -9275,13 +9335,14 @@ GameObject:
   m_Component:
   - component: {fileID: 748864957}
   - component: {fileID: 748864956}
+  - component: {fileID: 748864958}
   m_Layer: 0
   m_Name: Gravity Plane Ceiling
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &748864956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9310,6 +9371,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 180, y: 0, z: 0}
+--- !u!114 &748864958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 748864955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eeaf88e94bd8c5478e890af9b1027aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gravity: 9.81
+  range: 4
 --- !u!1 &750582325
 GameObject:
   m_ObjectHideFlags: 0
@@ -9320,13 +9395,14 @@ GameObject:
   m_Component:
   - component: {fileID: 750582327}
   - component: {fileID: 750582326}
+  - component: {fileID: 750582328}
   m_Layer: 0
   m_Name: Gravity Plane Forward
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &750582326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9355,6 +9431,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 270, y: 0, z: 0}
+--- !u!114 &750582328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 750582325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eeaf88e94bd8c5478e890af9b1027aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gravity: 9.81
+  range: 4
 --- !u!43 &751650606
 Mesh:
   m_ObjectHideFlags: 0
@@ -24632,22 +24722,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 1822895525}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1b8ac43c743f4ec59454ccad24d8740, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f9d15ff3139a1a42a106d53d8195cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   focus: {fileID: 1129890258}
   distance: 5
-  focusRadius: 0.5
-  focusCentering: 0.75
+  focusRadius: 5
+  focusCentering: 0.5
   rotationSpeed: 90
-  minVerticalAngle: -30
-  maxVerticalAngle: 60
-  alignDelay: 1
+  minVerticalAngle: -45
+  maxVerticalAngle: 45
+  alignDelay: 5
   alignSmoothRange: 45
-  upAlignmentSpeed: 360
   obstructionMask:
     serializedVersion: 2
-    m_Bits: 1587
+    m_Bits: 1591
+  upAlignmentSpeed: 360
 --- !u!81 &1822895527
 AudioListener:
   m_ObjectHideFlags: 0
@@ -32581,6 +32671,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6315726874829106892, guid: 0379d4707a828415494f18f6eb7a15be,
+        type: 3}
+      propertyPath: m_Name
+      value: Sphere
+      objectReference: {fileID: 0}
+    - target: {fileID: 6315726874829106892, guid: 0379d4707a828415494f18f6eb7a15be,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6315726874829106888, guid: 0379d4707a828415494f18f6eb7a15be,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -32650,16 +32750,6 @@ PrefabInstance:
         type: 3}
       propertyPath: maxGroundAngle
       value: 48
-      objectReference: {fileID: 0}
-    - target: {fileID: 6315726874829106892, guid: 0379d4707a828415494f18f6eb7a15be,
-        type: 3}
-      propertyPath: m_Name
-      value: Sphere
-      objectReference: {fileID: 0}
-    - target: {fileID: 6315726874829106892, guid: 0379d4707a828415494f18f6eb7a15be,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0379d4707a828415494f18f6eb7a15be, type: 3}
