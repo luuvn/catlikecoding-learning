@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using UnityEditor.iOS.Extensions.Common;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
@@ -33,9 +34,7 @@ public class MovingSphere : MonoBehaviour
     [SerializeField]
     LayerMask probeMask = -1, stairsMask = -1;
 
-    Rigidbody body;
-
-    Vector3 velocity, desiredVelocity;
+    Vector3 velocity, desiredVelocity, connectionVelocity;
 
     Vector3 contactNormal, steepNormal;
 
@@ -49,11 +48,15 @@ public class MovingSphere : MonoBehaviour
 
     private bool OnSteep => steepContactCount > 0;
 
+    private Rigidbody body, connectedBody, previousConnectedBody;
+
     int jumpPhase;
 
     float minGroundDotProduct, minStairsDotProduct;
 
     private Vector3 upAxis, rightAxis, forwardAxis;
+
+    private Vector3 connectionWorldPosition, connectionLocalPosition;
 
     void OnValidate()
     {
@@ -119,7 +122,9 @@ public class MovingSphere : MonoBehaviour
     void ClearState()
     {
         groundContactCount = steepContactCount = 0;
-        contactNormal = steepNormal = Vector3.zero;
+        contactNormal = steepNormal = connectionVelocity = Vector3.zero;
+        previousConnectedBody = connectedBody;
+        connectedBody = null;
     }
 
     void UpdateState()
@@ -144,6 +149,25 @@ public class MovingSphere : MonoBehaviour
         {
             contactNormal = upAxis;
         }
+
+        if (connectedBody)
+        {
+            if (connectedBody.isKinematic || connectedBody.mass >= body.mass)
+            {
+                UpdateConnectionState();
+            }
+        }
+    }
+
+    void UpdateConnectionState()
+    {
+        if (connectedBody == previousConnectedBody)
+        {
+            Vector3 connectionMovement = connectedBody.transform.TransformPoint(connectionLocalPosition) - connectionWorldPosition;
+            connectionVelocity = connectionMovement / Time.deltaTime;
+        }
+        connectionWorldPosition = body.position;
+        connectionLocalPosition = connectedBody.transform.InverseTransformPoint(connectionWorldPosition);
     }
 
     void AdjustVelocity()
@@ -154,13 +178,16 @@ public class MovingSphere : MonoBehaviour
         Vector3 xAxis = ProjectOnContactPlane(rightAxis, contactNormal);
         Vector3 zAxis = ProjectOnContactPlane(forwardAxis, contactNormal);
 
-        float currentX = Vector3.Dot(xAxis, velocity);
-        float currentZ = Vector3.Dot(zAxis, velocity);
+        Vector3 relativeVelocity = velocity - connectionVelocity;
+        float currentX = Vector3.Dot(relativeVelocity, xAxis);
+        float currentZ = Vector3.Dot(relativeVelocity, zAxis);
 
         float newX = Mathf.MoveTowards(currentX, desiredVelocity.x, deltaAcceleration);
         float newZ = Mathf.MoveTowards(currentZ, desiredVelocity.z, deltaAcceleration);
 
         velocity += xAxis * (newX - currentX) + zAxis * (newZ - currentZ);
+
+       
     }
 
     void Jump(Vector3 gravity)
@@ -220,11 +247,16 @@ public class MovingSphere : MonoBehaviour
             {
                 groundContactCount += 1;
                 contactNormal += normal;
+                connectedBody = collision.rigidbody;
             }
             else if (upDot > -0.01f)
             {
                 steepContactCount += 1;
                 steepNormal += normal;
+                if (groundContactCount == 0)
+                {
+                    connectedBody = collision.rigidbody;
+                }
             }
         }
     }
@@ -263,6 +295,7 @@ public class MovingSphere : MonoBehaviour
             velocity = (velocity - hit.normal * dot).normalized * speed;
         }
 
+        connectedBody = hit.rigidbody;
         return true;
     }
 
