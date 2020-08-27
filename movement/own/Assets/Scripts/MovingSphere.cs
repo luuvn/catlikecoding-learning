@@ -133,8 +133,15 @@ public class MovingSphere : MonoBehaviour
             forwardAxis = ProjectOnContactPlane(Vector3.forward, upAxis);
         }
 
-        desiredJump |= Input.GetButtonDown("Jump");
-        desiresClimbing = Input.GetButton("Climb");
+        if (Swimming)
+        {
+            desiresClimbing = false;
+        }
+        else
+        {
+            desiredJump |= Input.GetButtonDown("Jump");
+            desiresClimbing = Input.GetButton("Climb");
+        }
 
         meshRenderer.material = Climbing ? climbingMaterial :
             Swimming ? swimmingMaterial : normalMaterial;
@@ -316,6 +323,10 @@ public class MovingSphere : MonoBehaviour
         jumpPhase += 1;
 
         float jumpSpeed = Mathf.Sqrt(2 * gravity.magnitude * jumpHeight);
+        if (InWater)
+        {
+            jumpSpeed *= Mathf.Max(0f, 1f - submergence / swimThreshold);
+        }
         jumpDirection = (jumpDirection + upAxis).normalized;
         float combinedSpeed = Vector3.Dot(velocity, jumpDirection);
 
@@ -339,7 +350,7 @@ public class MovingSphere : MonoBehaviour
     {
         if ((waterMask & (1 << other.gameObject.layer)) != 0)
         {
-            EvaluateSubmergence();
+            EvaluateSubmergence(other);
         }
     }
 
@@ -347,11 +358,11 @@ public class MovingSphere : MonoBehaviour
     {
         if ((waterMask & (1 << other.gameObject.layer)) != 0)
         {
-            EvaluateSubmergence();
+            EvaluateSubmergence(other);
         }
     }
 
-    void EvaluateSubmergence()
+    void EvaluateSubmergence(Collider collider)
     {
         if (Physics.Raycast(
             body.position + upAxis * submergenceOffset,
@@ -364,10 +375,18 @@ public class MovingSphere : MonoBehaviour
         {
             submergence = 1f;
         }
+
+        if (Swimming)
+        {
+            connectedBody = collider.attachedRigidbody;
+        }
     }
 
     void EvaluateCollision(Collision collision)
     {
+        if (Swimming)
+            return;
+
         int layer = collision.gameObject.layer;
         float minDot = GetMinDot(layer);
         for (int i = 0; i < collision.contactCount; i++)

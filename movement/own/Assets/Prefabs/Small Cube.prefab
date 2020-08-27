@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5707915607088006839}
   - component: {fileID: 5707915607088006836}
   - component: {fileID: 5707915607088006832}
-  - component: {fileID: 7743495811001620637}
+  - component: {fileID: 6256555969696743342}
   m_Layer: 12
   m_Name: Small Cube
   m_TagString: Untagged
@@ -57,7 +57,6 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -111,7 +110,7 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7743495811001620637
+--- !u!114 &6256555969696743342
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,15 +119,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 5707915607088006837}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 701601ff769a24fd39b82be85d0b4ecf, type: 3}
+  m_Script: {fileID: 11500000, guid: 99c8e314a825467409a6df5a481d5c3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   floatToSleep: 1
   submergenceOffset: 0.125
   submergenceRange: 0.25
   buoyancy: 1.1
-  buoyancyOffset: {x: 0, y: 0.01, z: 0}
   waterDrag: 1
   waterMask:
     serializedVersion: 2
     m_Bits: 16
+  buoyancyOffset: {x: 0, y: 0.01, z: 0}
